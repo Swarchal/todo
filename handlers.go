@@ -40,8 +40,26 @@ func handleComplete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	err = DB.DeleteTodo(id)
+	todo, err := DB.GetTodo(id)
 	if err != nil {
-		fmt.Printf("Cannot delete TODO id %b: %s", id, err)
+		fmt.Printf("Cannot find TODO id:%b\n", id)
+		return
 	}
+	todo.MarkComplete()
+	if err != nil {
+		fmt.Printf("Cannot complete TODO id %b: %s\n", id, err)
+	}
+}
+
+func handleSortItems(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		panic(err)
+	}
+	ids := r.Form["item"]
+	fmt.Println(ids)
+	// TODO: map ids to integers
+	// TODO: set ordering value for each TODO.Id
+	// TODO: update Todo items in database
+	// TODO: need to return html fragment
+	fmt.Fprintf(w, "")
 }

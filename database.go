@@ -80,7 +80,7 @@ func (db Database) GetTodo(id int64) (Todo, error) {
 	return t, nil
 }
 
-func (db Database) DeleteTodo(id int64) error {
-	_, err := db.con.Exec("UPDATE Todo SET deleted = 1 WHERE id = ?", id)
+func (db Database) CompleteTodo(id int64) error {
+	_, err := db.con.Exec("UPDATE Todo SET completed = 1 WHERE id = ?", id)
 	return err
 }

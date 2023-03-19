@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/style.css" rel="stylesheet">
   <script src="https://unpkg.com/htmx.org@1.8.6"></script>
+  <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
   <style>
     tr.htmx-swapping td {
       opacity: 0;
@@ -25,16 +26,34 @@
   </form>
   <br>
 
-  <table>
-    <tbody hx-confirm="Are you sure?" , hx-target="closest tr" hx-swap="outerHtml swap:1s">
-      {{ range . }}
-      <tr>
-        <td>{{ .Name }}</td>
-        <td><button hx-delete="/complete/{{.Id}}">✔</button></td>
-      </tr>
-      {{ end }}
-    <tbody>
-  </table>
-  </div>
+  <form class="sortable" hx-post="/sort-items" hx-trigger="end" hx-target="#hidden">
+    <table>
+      <tbody id="todoList" hx-confirm="Are you sure?" , hx-target="closest tr" hx-swap="outerHtml swap:1s">
+        {{ range . }}
+        <tr>
+          <input type="hidden" name="item" value="{{.Id}}" />
+          <td>{{ .Name }}</td>
+          <td><button hx-delete="/complete/{{.Id}}">✔</button></td>
+        </tr>
+        {{ end }}
+      <tbody>
+    </table>
+  </form>
+
+  <div id="hidden" style="display: none;" />
+
+  <script>
+    htmx.onLoad(function (content) {
+      var sortables = content.querySelectorAll(".sortable")
+      for (var i = 0; i < sortables.length; i++) {
+        var sortable = sortables[i]
+        new Sortable(todoList, {
+          animation: 150,
+        })
+      }
+    })
+  </script>
+
+
 
 </html>

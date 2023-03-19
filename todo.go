@@ -37,7 +37,7 @@ func (t *Todo) MarkComplete() error {
 
 func (t *Todo) Update() error {
 	_, err := DB.con.Exec(
-		"UPDATE TODO SET name = ?, completed = ?, deleted =?, ordering = ? FROM Todo WHERE id = ?",
+		"UPDATE Todo SET name = ?, completed = ?, deleted =?, ordering = ? FROM Todo WHERE id = ?",
 		t.Name, t.Completed, t.Completed, t.Deleted, t.Ordering, t.Id,
 	)
 	return err
