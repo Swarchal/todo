@@ -17,8 +17,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 func handleAdd(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case "GET":
-		http.ServeFile(w, r, "templates/add_todo.html")
 	case "POST":
 		err := r.ParseForm()
 		if err != nil {
@@ -32,9 +30,8 @@ func handleAdd(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	default:
-		panic("shouln't be here")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-
 }
 
 func handleComplete(w http.ResponseWriter, r *http.Request) {

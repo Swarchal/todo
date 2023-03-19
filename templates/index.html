@@ -19,14 +19,18 @@
 <body>
   <h1>TODO</h1>
 
-  <p><a href="/add"><button>Add</button></a></p>
+  <form action="/add" method="POST">
+    <input type="text" id="Name" name="Name" placeholder="TODO">
+    <input type="submit" value="+">
+  </form>
+  <br>
 
   <table>
     <tbody hx-confirm="Are you sure?" , hx-target="closest tr" hx-swap="outerHtml swap:1s">
       {{ range . }}
       <tr>
         <td>{{ .Name }}</td>
-        <td><button hx-delete="/complete/{{.Id}}">Done</button></td>
+        <td><button hx-delete="/complete/{{.Id}}">✔</button></td>
       </tr>
       {{ end }}
     <tbody>
