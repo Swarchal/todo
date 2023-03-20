@@ -55,11 +55,22 @@ func handleSortItems(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		panic(err)
 	}
-	ids := r.Form["item"]
-	fmt.Println(ids)
-	// TODO: map ids to integers
-	// TODO: set ordering value for each TODO.Id
-	// TODO: update Todo items in database
-	// TODO: need to return html fragment
+	idStrs := r.Form["item"]
+	// convert slice from strings to int64s
+	ids := make([]int64, len(idStrs))
+	for idx, idStr := range idStrs {
+		id32, _ := strconv.Atoi(idStr)
+		ids[idx] = int64(id32)
+	}
+	// set ordering value for each TODO.Id
+	// save in database
+	for idx, id := range ids {
+		t, _ := DB.GetTodo(id)
+		t.Ordering = idx + 1
+		err := t.Update()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 	fmt.Fprintf(w, "")
 }

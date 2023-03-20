@@ -59,13 +59,13 @@ func (db Database) queryRows(query string) ([]Todo, error) {
 
 // get all todo items (including those done) but excluding deleted
 func (db Database) GetAllTodos() ([]Todo, error) {
-	query := "SELECT id, name, completed, date, deleted, ordering FROM Todo WHERE deleted != 1"
+	query := "SELECT id, name, completed, date, deleted, ordering FROM Todo WHERE deleted != 1 ORDER BY ordering"
 	return db.queryRows(query)
 }
 
 // get todo items which are not done
 func (db Database) GetTodos() ([]Todo, error) {
-	query := "SELECT id, name, completed, date, deleted, ordering FROM Todo WHERE deleted != 1 AND completed != 1"
+	query := "SELECT id, name, completed, date, deleted, ordering FROM Todo WHERE deleted != 1 AND completed != 1 ORDER BY ordering"
 	return db.queryRows(query)
 }
 
