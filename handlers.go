@@ -35,41 +35,45 @@ func handleAdd(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleComplete(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/complete/")
-	id, err := strconv.ParseInt(idStr, 10, 64)
-	if err != nil {
-		panic(err)
-	}
-	todo, err := DB.GetTodo(id)
-	if err != nil {
-		fmt.Printf("Cannot find TODO id:%b\n", id)
-		return
-	}
-	todo.MarkComplete()
-	if err != nil {
-		fmt.Printf("Cannot complete TODO id %b: %s\n", id, err)
+	if r.Method == "POST" {
+		idStr := strings.TrimPrefix(r.URL.Path, "/complete/")
+		id, err := strconv.ParseInt(idStr, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		todo, err := DB.GetTodo(id)
+		if err != nil {
+			fmt.Printf("Cannot find TODO id:%b\n", id)
+			return
+		}
+		todo.MarkComplete()
+		if err != nil {
+			fmt.Printf("Cannot complete TODO id %b: %s\n", id, err)
+		}
 	}
 }
 
 func handleSortItems(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		panic(err)
-	}
-	idStrs := r.Form["item"]
-	// convert slice from strings to int64s
-	ids := make([]int64, len(idStrs))
-	for idx, idStr := range idStrs {
-		id32, _ := strconv.Atoi(idStr)
-		ids[idx] = int64(id32)
-	}
-	// set ordering value for each TODO.Id
-	// save in database
-	for idx, id := range ids {
-		t, _ := DB.GetTodo(id)
-		t.Ordering = idx + 1
-		err := t.Update()
-		if err != nil {
-			fmt.Println(err)
+	if r.Method == "POST" {
+		if err := r.ParseForm(); err != nil {
+			panic(err)
+		}
+		idStrs := r.Form["item"]
+		// convert slice from strings to int64s
+		ids := make([]int64, len(idStrs))
+		for idx, idStr := range idStrs {
+			id32, _ := strconv.Atoi(idStr)
+			ids[idx] = int64(id32)
+		}
+		// set ordering value for each TODO.Id
+		// save in database
+		for idx, id := range ids {
+			t, _ := DB.GetTodo(id)
+			t.Ordering = idx + 1
+			err := t.Update()
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
 	fmt.Fprintf(w, "")

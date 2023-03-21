@@ -33,7 +33,7 @@
         <tr>
           <input type="hidden" name="item" value="{{.Id}}" />
           <td>{{ .Name }}</td>
-          <td><button hx-delete="/complete/{{.Id}}">✔</button></td>
+          <td><button hx-post="/complete/{{.Id}}">✔</button></td>
         </tr>
         {{ end }}
       <tbody>
