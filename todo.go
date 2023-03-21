@@ -13,7 +13,7 @@ type Todo struct {
 	Ordering  int
 }
 
-func (t *Todo) Save() error {
+func (t *Todo) Create() error {
 	res, err := DB.con.Exec("INSERT INTO Todo (name) VALUES (?)", t.Name)
 	if err != nil {
 		return err

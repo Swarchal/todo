@@ -24,7 +24,7 @@ func handleAdd(w http.ResponseWriter, r *http.Request) {
 		}
 		name := r.Form.Get("Name")
 		t := Todo{Name: name}
-		err = t.Save()
+		err = t.Create()
 		if err != nil {
 			panic(err)
 		}
