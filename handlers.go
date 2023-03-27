@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -20,13 +21,13 @@ func handleAdd(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		err := r.ParseForm()
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		name := r.Form.Get("Name")
 		t := Todo{Name: name}
 		err = t.Save()
 		if err != nil {
-			panic(err)
+			log.Fatalf("Cannot save TODO item: %s", err)
 		}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	default:
@@ -38,22 +39,21 @@ func handleComplete(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/complete/")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Failed to convert %s to an int\n", idStr)
 	}
 	todo, err := DB.GetTodo(id)
 	if err != nil {
-		fmt.Printf("Cannot find TODO id:%b\n", id)
-		return
+		log.Fatalf("Cannot find TODO id:%b\n", id)
 	}
-	todo.MarkComplete()
+	err = todo.MarkComplete()
 	if err != nil {
-		fmt.Printf("Cannot complete TODO id %b: %s\n", id, err)
+		log.Fatalf("Cannot complete TODO id %b: %s\n", id, err)
 	}
 }
 
 func handleSortItems(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		panic(err)
+		log.Fatalf("Failed to parse form: %s\n", err)
 	}
 	idStrs := r.Form["item"]
 	// convert slice from strings to int64s
@@ -69,7 +69,7 @@ func handleSortItems(w http.ResponseWriter, r *http.Request) {
 		t.Ordering = idx + 1
 		err := t.Update()
 		if err != nil {
-			fmt.Println(err)
+			log.Printf("Failed to update TODO id: %b: %s", t.Id, err)
 		}
 	}
 	fmt.Fprintf(w, "")

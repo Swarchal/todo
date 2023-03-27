@@ -5,13 +5,57 @@
   <title></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="css/style.css" rel="stylesheet">
   <script src="https://unpkg.com/htmx.org@1.8.6"></script>
   <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
   <style>
     tr.htmx-swapping td {
       opacity: 0;
       transition: opacity 0.5s ease-out;
+    }
+
+    html,
+    body,
+    tr,
+    td,
+    hr {
+      font-family: "fira mono", "source code pro", monospace;
+      background-color: #ffffff;
+      color: #000000;
+      max-width: 800px;
+      margin: auto;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    article {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    a:link {
+      color: #000000;
+    }
+
+    a:visited {
+      color: #555555;
+    }
+
+    a:active {
+      color: #000000;
+    }
+
+    a:hover {
+      color: #999999;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 1em;
+    }
+
+    input {
+      font-family: inherit;
+      font-size: 1em;
     }
   </style>
 

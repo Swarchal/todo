@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -24,11 +25,11 @@ func CreateDb() Database {
     `
 	db, err := sql.Open("sqlite3", "./db.sqlite")
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 	_, err = db.Exec(createStr)
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
 	return Database{db}
 }
