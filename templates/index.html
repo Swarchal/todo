@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title></title>
+  <title>TODO</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://unpkg.com/htmx.org@1.8.6"></script>
@@ -72,7 +72,7 @@
 
   <form class="sortable" hx-post="/sort-items" hx-trigger="end" hx-target="#hidden">
     <table>
-      <tbody id="todoList" hx-confirm="Are you sure?" , hx-target="closest tr" hx-swap="outerHtml swap:1s">
+      <tbody id="todoList" hx-target="closest tr" hx-swap="outerHtml swap:0.3s">
         {{ range . }}
         <tr>
           <input type="hidden" name="item" value="{{.Id}}" />
