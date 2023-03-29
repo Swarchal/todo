@@ -76,7 +76,9 @@
         {{ range . }}
         <tr>
           <input type="hidden" name="item" value="{{.Id}}" />
-          <td>{{ .Name }}</td>
+          <td>
+            <div title="{{ .Date }}">{{ .Name }}</div>
+          </td>
           <td><button hx-post="/complete/{{.Id}}">✔</button></td>
         </tr>
         {{ end }}
