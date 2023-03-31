@@ -79,7 +79,7 @@
           <td>
             <div title="{{ .Date }}">{{ .Name }}</div>
           </td>
-          <td><button hx-post="/complete/{{.Id}}">✔</button></td>
+          <td><button hx-post="/complete/{{.Id}}">✔</button><button hx-post="/delete/{{.Id}}">🗑</button></td>
         </tr>
         {{ end }}
       <tbody>

@@ -53,6 +53,24 @@ func handleComplete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handleDelete(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		idStr := strings.TrimPrefix(r.URL.Path, "/delete/")
+		id, err := strconv.ParseInt(idStr, 10, 64)
+		if err != nil {
+			log.Fatalf("Failed to convert %s to an int\n", idStr)
+		}
+		todo, err := DB.GetTodo(id)
+		if err != nil {
+			log.Fatalf("Cannot find TODO id:%b\n", id)
+		}
+		todo.Delete()
+		if err != nil {
+			log.Fatalf("Cannot delete TODO id %b: %s\n", id, err)
+		}
+	}
+}
+
 func handleSortItems(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		if err := r.ParseForm(); err != nil {

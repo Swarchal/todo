@@ -13,6 +13,7 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/add", handleAdd)
 	http.HandleFunc("/complete/", handleComplete)
+	http.HandleFunc("/delete/", handleDelete)
 	http.HandleFunc("/sort-items", handleSortItems)
 
 	fmt.Println("Running http server...")
