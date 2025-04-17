@@ -15,12 +15,12 @@ type Database struct {
 func CreateDb() Database {
 	const createStr string = `
     CREATE TABLE IF NOT EXISTS Todo (
-      id INTEGER PRIMARY KEY,
-      name STRING NOT NULL,
-      completed INTEGER NOT NULL DEFAULT 0,
-      date DATETIME DEFAULT CURRENT_TIMESTAMP,
-      deleted INTEGER NOT NULL DEFAULT 0,
-      ordering INTEGER NOT NULL DEFAULT 0
+      id        INTEGER  PRIMARY KEY,
+      name      STRING   NOT NULL,
+      completed INTEGER  NOT NULL DEFAULT 0,
+      date      DATETIME DEFAULT CURRENT_TIMESTAMP,
+      deleted   INTEGER  NOT NULL DEFAULT 0,
+      ordering  INTEGER  NOT NULL DEFAULT 0
     )
     `
 	db, err := sql.Open("sqlite3", "./db.sqlite")

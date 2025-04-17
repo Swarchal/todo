@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -17,5 +18,7 @@ func main() {
 	http.HandleFunc("/sort-items", handleSortItems)
 
 	fmt.Println("Running http server...")
-	http.ListenAndServe(":3333", nil)
+	if err := http.ListenAndServe("127.0.0.1:3333", nil); err != nil {
+		log.Fatal(err)
+	}
 }

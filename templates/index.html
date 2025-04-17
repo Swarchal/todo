@@ -2,103 +2,104 @@
 <html lang="en">
 
 <head>
-  <title>TODO</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://unpkg.com/htmx.org@1.8.6"></script>
-  <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
-  <style>
-    tr.htmx-swapping td {
-      opacity: 0;
-      transition: opacity 0.5s ease-out;
-    }
+    <title>TODO</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+    <style>
+        tr.htmx-swapping td {
+            opacity: 0;
+            text-decoration: line-through;
+            transition: opacity 0.5s ease-out;
+        }
 
-    html,
-    body,
-    tr,
-    td,
-    hr {
-      font-family: "fira mono", "source code pro", monospace;
-      background-color: #ffffff;
-      color: #000000;
-      max-width: 800px;
-      margin: auto;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
+        html,
+        body,
+        tr,
+        td,
+        hr {
+            font-family: "fira mono", "source code pro", monospace;
+            background-color: #ffffff;
+            color: #000000;
+            max-width: 800px;
+            margin: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
 
-    article {
-      max-width: 800px;
-      margin: auto;
-    }
+        article {
+            max-width: 800px;
+            margin: auto;
+        }
 
-    a:link {
-      color: #000000;
-    }
+        a:link {
+            color: #000000;
+        }
 
-    a:visited {
-      color: #555555;
-    }
+        a:visited {
+            color: #555555;
+        }
 
-    a:active {
-      color: #000000;
-    }
+        a:active {
+            color: #000000;
+        }
 
-    a:hover {
-      color: #999999;
-    }
+        a:hover {
+            color: #999999;
+        }
 
-    button {
-      font-family: inherit;
-      font-size: 1em;
-    }
+        button {
+            font-family: inherit;
+            font-size: 1em;
+        }
 
-    input {
-      font-family: inherit;
-      font-size: 1em;
-    }
-  </style>
+        input {
+            font-family: inherit;
+            font-size: 1em;
+        }
+    </style>
 
 </head>
 
 <body>
-  <h1>TODO</h1>
+    <h1>TODO</h1>
 
-  <form action="/add" method="POST">
-    <input type="text" id="Name" name="Name" placeholder="TODO">
-    <input type="submit" value="+">
-  </form>
-  <br>
+    <form action="/add" method="POST">
+        <input type="text" id="Name" name="Name" placeholder="TODO">
+        <input type="submit" value="+">
+    </form>
+    <br>
 
-  <form class="sortable" hx-post="/sort-items" hx-trigger="end" hx-target="#hidden">
-    <table>
-      <tbody id="todoList" hx-target="closest tr" hx-swap="outerHtml swap:0.3s">
-        {{ range . }}
-        <tr>
-          <input type="hidden" name="item" value="{{.Id}}" />
-          <td>
-            <div title="{{ .Date }}">{{ .Name }}</div>
-          </td>
-          <td><button hx-post="/complete/{{.Id}}">✔</button></td>
-        </tr>
-        {{ end }}
-      <tbody>
-    </table>
-  </form>
+    <form class="sortable" hx-post="/sort-items" hx-trigger="end" hx-target="#hidden">
+        <table>
+            <tbody id="todoList" hx-target="closest tr" hx-swap="outerHtml swap:0.3s">
+                {{ range . }}
+                <tr>
+                    <input type="hidden" name="item" value="{{.Id}}" />
+                    <td>
+                        <div title="{{ .Date }}">{{ .Name }}</div>
+                    </td>
+                    <td><button hx-post="/complete/{{.Id}}">✔</button></td>
+                </tr>
+                {{ end }}
+            <tbody>
+        </table>
+    </form>
 
-  <div id="hidden" style="display: none;" />
+    <div id="hidden" style="display: none;"></div>
 
-  <script>
-    htmx.onLoad(function (content) {
-      var sortables = content.querySelectorAll(".sortable")
-      for (var i = 0; i < sortables.length; i++) {
-        var sortable = sortables[i]
-        new Sortable(todoList, {
-          animation: 150,
+    <script>
+        htmx.onLoad(function (content) {
+            var sortables = content.querySelectorAll(".sortable")
+            for (var i = 0; i < sortables.length; i++) {
+                var sortable = sortables[i]
+                new Sortable(todoList, {
+                    animation: 150,
+                })
+            }
         })
-      }
-    })
-  </script>
+    </script>
 
 
 
