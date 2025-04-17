@@ -4,9 +4,7 @@ services:
     container_name: todo_app
     build: .
     restart: always
-    ports:
-      - "3333:3333"
     volumes:
       - ${PWD}/db.sqlite:/app/db.sqlite
     command: go run .
-
+    network_mode: "host"
