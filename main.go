@@ -16,6 +16,8 @@ func main() {
 	http.HandleFunc("/complete/", handleComplete)
 	http.HandleFunc("/delete/", handleDelete)
 	http.HandleFunc("/sort-items", handleSortItems)
+	http.HandleFunc("/detail/", handleGetDetail)
+	http.HandleFunc("/update-content/", handleUpdateContent)
 
 	fmt.Println("Running http server...")
 	if err := http.ListenAndServe("127.0.0.1:3333", nil); err != nil {

@@ -35,6 +35,7 @@
 
         a:link {
             color: #000000;
+            text-decoration: none;
         }
 
         a:visited {
@@ -78,7 +79,9 @@
                 <tr>
                     <input type="hidden" name="item" value="{{.Id}}" />
                     <td>
-                        <div title="{{ .Date }}">{{ .Name }}</div>
+                        <a href="/detail/{{.Id}}">
+                            <div title="{{ .Date }}">{{ .Name }}</div>
+                        </a>
                     </td>
                     <td><button hx-post="/complete/{{.Id}}">✔</button></td>
                 </tr>

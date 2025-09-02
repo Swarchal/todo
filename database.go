@@ -20,7 +20,8 @@ func CreateDb() Database {
       completed INTEGER  NOT NULL DEFAULT 0,
       date      DATETIME DEFAULT CURRENT_TIMESTAMP,
       deleted   INTEGER  NOT NULL DEFAULT 0,
-      ordering  INTEGER  NOT NULL DEFAULT 0
+      ordering  INTEGER  NOT NULL DEFAULT 0,
+      content   TEXT
     )
     `
 	db, err := sql.Open("sqlite3", "./db.sqlite")
@@ -72,9 +73,19 @@ func (db Database) GetTodos() ([]Todo, error) {
 
 // get todo from database by id
 func (db Database) GetTodo(id int64) (Todo, error) {
-	row := db.con.QueryRow("SELECT id, name, completed, date, deleted, ordering FROM Todo WHERE id = ?", id)
+	row := db.con.QueryRow("SELECT id, name, completed, date, deleted, ordering, content FROM Todo WHERE id = ?", id)
 	var t Todo
-	err := row.Scan(&t.Id, &t.Name, &t.Completed, &t.Date, &t.Deleted, &t.Ordering)
+	err := row.Scan(&t.Id, &t.Name, &t.Completed, &t.Date, &t.Deleted, &t.Ordering, &t.Content)
+	if err != nil {
+		return t, err
+	}
+	return t, nil
+}
+
+func (db Database) GetTodoDetail(id int64) (Todo, error) {
+	row := db.con.QueryRow("SELECT id, name, completed, date, deleted, ordering, content FROM Todo WHERE id = ?", id)
+	var t Todo
+	err := row.Scan(&t.Id, &t.Name, &t.Completed, &t.Date, &t.Deleted, &t.Ordering, &t.Content)
 	if err != nil {
 		return t, err
 	}

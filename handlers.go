@@ -96,3 +96,49 @@ func handleSortItems(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "")
 }
+
+func handleGetDetail(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		idStr := strings.TrimPrefix(r.URL.Path, "/detail/")
+		id, err := strconv.Atoi(idStr)
+		id64 := int64(id)
+		if err != nil {
+			log.Fatalf("Failed to convert %s to an int\n", idStr)
+		}
+		todo, err := DB.GetTodo(id64)
+		if err != nil {
+			log.Fatalf("Cannot find TODO id:%d err: %s\n", id64, err.Error())
+		}
+		t, err := template.ParseFiles("templates/detail.html")
+		if err != nil {
+			log.Fatalf("Cannot parse template: %s\n", err)
+		}
+		t.Execute(w, todo)
+	}
+}
+
+func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Fatalf("Failed to parse form: %s\n", err)
+		}
+		idStr := r.Form.Get("id")
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			log.Fatalf("Failed to convert %s to an int\n", idStr)
+		}
+		id64 := int64(id)
+		todo, err := DB.GetTodo(id64)
+		if err != nil {
+			log.Fatalf("Cannot find TODO id:%d err: %s\n", id64, err.Error())
+		}
+		content := r.Form.Get("content")
+		todo.Content = &content
+		err = todo.UpdateContent()
+		if err != nil {
+			log.Fatalf("Cannot update content for TODO id:%d err: %s\n", id64, err.Error())
+		}
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+}
