@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TODO</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+    <style>
+        html,
+        body,
+        tr,
+        td,
+        hr {
+            font-family: "fira mono", "source code pro", monospace;
+            background-color: #ffffff;
+            color: #000000;
+            max-width: 800px;
+            margin: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        article {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        a:link {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: #555555;
+        }
+
+        a:active {
+            color: #000000;
+        }
+
+        a:hover {
+            color: #999999;
+        }
+
+        button {
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: 1em;
+        }
+    </style>
+
+</head>
+
+<body>
+    <a href="/">
+        <h1>TODO</h1>
+    </a>
+    <h2>{{ .Name }}</h2>
+    <br>
+    <div id="content" name="content">
+        <form action="/update-content/{{.Id}}" method="post">
+            <input type="hidden" id="id" name="id" value="{{ .Id }}">
+            {{ if .Content }}
+            <textarea id="content" name="content" rows="30" cols="120">{{ .Content }}</textarea>
+            {{ else }}
+            <textarea id="content" name="content" rows="30" cols="120" placeholder="Enter details here..."></textarea>
+            {{ end }}
+            <br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>

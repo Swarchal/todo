@@ -11,6 +11,7 @@ type Todo struct {
 	Date      time.Time
 	Deleted   bool
 	Ordering  int
+	Content   *string
 }
 
 func (t *Todo) Create() error {
@@ -35,10 +36,15 @@ func (t *Todo) MarkComplete() error {
 	return err
 }
 
+func (t *Todo) UpdateContent() error {
+	_, err := DB.con.Exec("UPDATE Todo SET content = ? WHERE id = ?", t.Content, t.Id)
+	return err
+}
+
 func (t *Todo) Update() error {
 	_, err := DB.con.Exec(
-		"UPDATE Todo SET name = ?, completed = ?, deleted = ?, ordering = ? WHERE id = ?",
-		t.Name, t.Completed, t.Deleted, t.Ordering, t.Id,
+		"UPDATE Todo SET name = ?, completed = ?, deleted = ?, ordering = ?, content = ? WHERE id = ?",
+		t.Name, t.Completed, t.Deleted, t.Ordering, t.Content, t.Id,
 	)
 	return err
 }
