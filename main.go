@@ -10,6 +10,9 @@ var DB Database
 
 func main() {
 	DB = CreateDb()
+	// Have to serve static css files in Go, otherwise css file is not found.
+	// https://www.devasking.com/issue/how-to-run-html-with-css-using-golang
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/add", handleAdd)
