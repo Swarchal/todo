@@ -39,3 +39,11 @@ input {
   font-family: inherit;
   font-size: 1em;
 }
+
+tr.htmx-swapping td {
+  opacity: 0;
+  text-decoration: line-through;
+  transition: opacity 0.5s ease-out;
+}
+
+
