@@ -46,7 +46,7 @@ func handleComplete(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatalf("Cannot find TODO id:%b\n", id)
 		}
-		todo.MarkComplete()
+		err = todo.MarkComplete()
 		if err != nil {
 			log.Fatalf("Cannot complete TODO id %b: %s\n", id, err)
 		}
