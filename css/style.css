@@ -14,20 +14,24 @@ article {
 }
 
 a:link {
-  color: #000000;
+  color: #333333;
   text-decoration: none;
 }
 
 a:visited {
-  color: #000000;
+  color: #333333;
 }
 
 a:active {
-  color: #000000;
+  color: #777777;
 }
 
 a:hover {
-  color: #999999;
+  color: #000000;
+}
+
+a:hover:not(table a) {
+  text-decoration: underline;
 }
 
 button {
@@ -46,4 +50,7 @@ tr.htmx-swapping td {
   transition: opacity 0.5s ease-out;
 }
 
-
+/* highlight entire row on hover */
+table tr:hover td {
+  background-color: #f0f0f0;
+}
