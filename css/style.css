@@ -44,6 +44,11 @@ input {
   font-size: 1em;
 }
 
+textarea {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
 tr.htmx-swapping td {
   opacity: 0;
   text-decoration: line-through;
