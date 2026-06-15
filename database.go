@@ -13,6 +13,12 @@ type Database struct {
 
 // create datbase connection, create database table if needed
 func CreateDb() Database {
+	return CreateDbAt("./db.sqlite")
+}
+
+// CreateDbAt opens a database connection at the given path (or DSN) and creates
+// the Todo table if needed.
+func CreateDbAt(path string) Database {
 	const createStr string = `
     CREATE TABLE IF NOT EXISTS Todo (
       id        INTEGER  PRIMARY KEY,
@@ -24,7 +30,7 @@ func CreateDb() Database {
       content   TEXT
     )
     `
-	db, err := sql.Open("sqlite3", "./db.sqlite")
+	db, err := sql.Open("sqlite3", path)
 	if err != nil {
 		log.Fatalln(err)
 	}
