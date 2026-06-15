@@ -16,7 +16,6 @@
         <h1>TODO</h1>
     </a>
     <h2>{{ .Name }}</h2>
-    <br>
     <div id="content" name="content">
         <form action="/update-content/{{.Id}}" method="post">
             <input type="hidden" id="id" name="id" value="{{ .Id }}">
