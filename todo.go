@@ -15,7 +15,10 @@ type Todo struct {
 }
 
 func (t *Todo) Create() error {
-	res, err := DB.con.Exec("INSERT INTO Todo (name) VALUES (?)", t.Name)
+	res, err := DB.con.Exec(
+		"INSERT INTO Todo (name, ordering) VALUES (?, (SELECT COALESCE(MIN(ordering), 0) - 1 FROM Todo))",
+		t.Name,
+	)
 	if err != nil {
 		return err
 	}
